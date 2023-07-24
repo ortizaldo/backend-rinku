@@ -1,10 +1,8 @@
 import express from "express";
-import { auth } from "express-openid-connect";
 import morgan from "morgan";
 import chalk from "chalk";
 import helmet from "helmet";
 import path from "path";
-import cors from "cors";
 import router from "./routes/index";
 import { mongooseCon } from "modules";
 import constants from "config/constants";
@@ -36,6 +34,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 global.db = db;
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log(chalk.green(`[admin_system] Server running on port: ${port}`));
 });

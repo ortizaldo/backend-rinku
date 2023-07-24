@@ -14,9 +14,6 @@ export {
   findDuplicatedCustom,
   mongooseCon,
   resError,
-  textComparer,
   deleteBody,
-  emailer,
   db,
-  advancedFiltersResponse,
 };
