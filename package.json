@@ -70,6 +70,8 @@
     "sinon": "^15.1.0",
     "slugify": "^1.5.0",
     "socket.io": "^2.1.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "underscore": "^1.13.6",
     "validate.js": "^0.13.1"
   },
