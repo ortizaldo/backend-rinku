@@ -30,7 +30,6 @@ function RestRouter(modelClassname, options = null, hashPassword = false) {
         data: instance,
       });
     } catch (err) {
-      console.log("🚀 ~ file: rest-router.js:35 ~ handlerPost ~ err:", err);
       resError(res, err);
     }
   }

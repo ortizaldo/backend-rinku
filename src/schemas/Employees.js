@@ -11,6 +11,7 @@ const schema = new mongoose.Schema(
       type: String,
       enum: ["chofer", "cargador", "auxiliar"],
       default: "chofer",
+      required: true,
     },
   },
   { toObject: { virtuals: true }, toJSON: { virtuals: true }, timestamps: true }

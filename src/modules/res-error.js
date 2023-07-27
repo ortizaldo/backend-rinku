@@ -9,17 +9,6 @@ import _ from "underscore";
  * Also, condiniotal will let us decide when to controll the err response unless a real server issue occurs
  */
 export default (res, err) => {
-  console.log(
-    chalk.redBright(
-      "==================================================================================="
-    )
-  );
-  console.log(chalk.redBright(`[admin_system] Error: ${JSON.stringify(err)}`));
-  console.log(
-    chalk.redBright(
-      "==================================================================================="
-    )
-  );
   if (_.has(err, "data")) {
     res.status(err.httpCode ? err.httpCode : 500).json({
       data: {
@@ -31,12 +20,6 @@ export default (res, err) => {
       },
     });
   } else {
-    res.status(err.httpCode ? err.httpCode : 500).json({
-      data: {
-        err,
-        title: "Error",
-        message: "Please try again",
-      },
-    });
+    res.status(err.httpCode ? err.httpCode : 500).json({ err: err.errors });
   }
 };
