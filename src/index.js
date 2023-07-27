@@ -3,6 +3,7 @@ import morgan from "morgan";
 import chalk from "chalk";
 import helmet from "helmet";
 import path from "path";
+import fs from "fs";
 import router from "./routes/index";
 import { mongooseCon } from "modules";
 import constants from "config/constants";
@@ -10,6 +11,10 @@ import constants from "config/constants";
 require("dotenv").config();
 const env = process.env.NODE_ENV || "development";
 const port = env === "development" ? process.env.SERVER_PORT : 3000;
+
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
+const customCss = fs.readFileSync(process.cwd() + "/src/swagger.css", "utf8");
 
 global.constants = constants;
 const app = express();
@@ -24,13 +29,15 @@ app.use(morgan("dev"));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: false }));
 app.use(express.json());
-//get the port number from .env file
 
 // routes
 app.use("/api", router);
 
-// static content
-app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument, { customCss })
+);
 
 global.db = db;
 
