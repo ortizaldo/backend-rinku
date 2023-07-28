@@ -26,15 +26,25 @@ db.create = async (req, modelClass, filterOptions = { populate: null }) => {
   return data;
 };
 db.getAll = async (payload, model) => {
-  const query = model.find(payload.filters ? payload.filters : null);
+  const { populate } = payload.query;
+  let { filter } = payload.query;
+  const { filtersId } = payload.query;
 
-  _.each(payload.populate, function (row) {
-    query.populate(row);
+  Object.keys(filtersId).map((key) => {
+    const id = filtersId[key].value;
+    filtersId[key] = new Types.ObjectId(id);
   });
 
-  query.sort = payload.sort ? payload.sort : { createdAt: -1 };
+  filter = { ...filter, ...filtersId };
+  const _query = model.find(filter ? filter : null);
 
-  const data = await query;
+  _.each(populate, function (row) {
+    _query.populate(row);
+  });
+
+  _query.sort = payload.sort ? payload.sort : { createdAt: -1 };
+
+  const data = await _query;
 
   return data;
 };

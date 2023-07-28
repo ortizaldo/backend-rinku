@@ -10,6 +10,7 @@ function RestRouter(modelClassname, options = null, hashPassword = false) {
 
       res.status(200).json(response);
     } catch (err) {
+      console.log("🚀 ~ file: rest-router.js:13 ~ handlerGet ~ err:", err);
       resError(res, err);
     }
   }
