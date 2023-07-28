@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { resError, db } from "modules";
+import { resError, db, salary } from "modules";
 import _ from "underscore";
 
 function RestRouter(modelClassname, options = null, hashPassword = false) {
@@ -10,7 +10,6 @@ function RestRouter(modelClassname, options = null, hashPassword = false) {
 
       res.status(200).json(response);
     } catch (err) {
-      console.log("🚀 ~ file: rest-router.js:13 ~ handlerGet ~ err:", err);
       resError(res, err);
     }
   }
@@ -18,6 +17,26 @@ function RestRouter(modelClassname, options = null, hashPassword = false) {
   async function handlerPost(req, res) {
     try {
       const instance = await db.create(
+        req,
+        modelClassname,
+        req.body.filterOptions
+          ? {
+              populate: req.body.populateFields,
+            }
+          : null
+      );
+
+      res.status(200).json({
+        data: instance,
+      });
+    } catch (err) {
+      resError(res, err);
+    }
+  }
+
+  async function handlerSalary(req, res) {
+    try {
+      const instance = await salary.getSalary(
         req,
         modelClassname,
         req.body.filterOptions
@@ -59,6 +78,7 @@ function RestRouter(modelClassname, options = null, hashPassword = false) {
   }
 
   router.post("/new", handlerPost);
+  router.post("/get-salary", handlerSalary);
   router.get("/:id?", handlerGet);
   router.patch("/:id", handlerPatch);
   router.put("/:id", handlerPatch);

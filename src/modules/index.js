@@ -7,6 +7,7 @@ import mongooseCon from "./mongo-connection";
 import resError from "./res-error";
 import { deleteBody } from "./utilities";
 import db from "./repository-db";
+import salary from "./repository-salary";
 
 export {
   findDuplicated,
@@ -16,4 +17,5 @@ export {
   resError,
   deleteBody,
   db,
+  salary,
 };

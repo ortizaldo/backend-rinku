@@ -29,11 +29,21 @@ db.getAll = async (payload, model) => {
   const { populate } = payload.query;
   let { filter } = payload.query;
   const { filtersId } = payload.query;
+  const { sort } = payload.query;
 
-  Object.keys(filtersId).map((key) => {
-    const id = filtersId[key].value;
-    filtersId[key] = new Types.ObjectId(id);
-  });
+  if (filtersId) {
+    Object.keys(filtersId).map((key) => {
+      const id = filtersId[key].value;
+      filtersId[key] = new Types.ObjectId(id);
+    });
+  }
+
+  if (sort) {
+    Object.keys(sort).map((key) => {
+      const _sort = filtersId[key];
+      sort[key] = _sort === "asc" ? 1 : -1;
+    });
+  }
 
   filter = { ...filter, ...filtersId };
   const _query = model.find(filter ? filter : null);
@@ -42,8 +52,7 @@ db.getAll = async (payload, model) => {
     _query.populate(row);
   });
 
-  _query.sort = payload.sort ? payload.sort : { createdAt: -1 };
-
+  _query.sort = sort ? sort : { createdAt: -1 };
   const data = await _query;
 
   return data;

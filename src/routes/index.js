@@ -6,5 +6,8 @@ const router = Router();
 
 router.use("/employees", routesEmployees);
 router.use("/employee-movements", routesEmployeeMovements);
+router.use("/employee-salary", routesEmployeeMovements);
+
+// router.post("/employee-movements/salary", routesEmployeeSalary);
 
 export default router;
