@@ -9,6 +9,7 @@ import _ from "underscore";
  * Also, condiniotal will let us decide when to controll the err response unless a real server issue occurs
  */
 export default (res, err) => {
+  console.log("🚀 ~ file: res-error.js:12 ~ err:", err);
   if (_.has(err, "data")) {
     res.status(err.httpCode ? err.httpCode : 500).json({
       data: {
