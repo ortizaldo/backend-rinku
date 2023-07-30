@@ -71,9 +71,8 @@ db.edit = async (req, modelClass) => {
     .findOneAndUpdate(
       {
         _id: new Types.ObjectId(req.params.id),
-        deleted: false,
       },
-      body.data,
+      body,
       {
         new: true,
       }
@@ -84,7 +83,7 @@ db.edit = async (req, modelClass) => {
   }
   let populate = [];
 
-  if (_.has(req.body.data, "populateFields")) {
+  if (_.has(req.body, "populateFields")) {
     populate = req.body.populateFields;
     instance = await modelClass
       .findById(instance._id)
@@ -95,44 +94,22 @@ db.edit = async (req, modelClass) => {
   return instance;
 };
 
-db.delete = async (req, modelClass) => {
-  const { id: pk } = req.params;
+db.deleteById = async (req, modelClass) => {
+  const { id } = req.params;
+  console.log(
+    "🚀 ~ file: repository-db.js:99 ~ db.deleteById ~ req.params:",
+    req.params
+  );
 
-  const filters = "filters" in req.query ? JSON.parse(req.query.filters) : {};
-
-  let items = Array.isArray(req.query.items)
-    ? req.query.items
-    : [req.query.items];
-
-  if (pk !== undefined) {
-    items = [pk];
+  if (!id) {
+    throw global.constants.response.recordNotFound;
   }
 
   let instance;
 
-  if (filters.hardDelete) {
-    instance = await modelClass.deleteMany({
-      _id: {
-        $in: items,
-      },
-    });
-  } else {
-    instance = await modelClass.updateMany(
-      {
-        $and: [
-          {
-            _id: {
-              $in: items,
-            },
-          },
-        ],
-      },
-      deleteBody(req.user ? req.user._id : null, true),
-      {
-        new: true,
-      }
-    );
-  }
+  instance = await modelClass.deleteOne({
+    _id: new Types.ObjectId(id),
+  });
 
   if (!instance) {
     throw global.constants.response.recordNotFound;

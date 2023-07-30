@@ -68,7 +68,7 @@ function RestRouter(modelClassname, options = null, hashPassword = false) {
 
   async function handlerDelete(req, res) {
     try {
-      const instance = await db.delete(req, modelClassname);
+      const instance = await db.deleteById(req, modelClassname);
       res.status(200).json({
         data: instance,
       });
