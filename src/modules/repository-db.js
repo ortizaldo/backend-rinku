@@ -96,10 +96,6 @@ db.edit = async (req, modelClass) => {
 
 db.deleteById = async (req, modelClass) => {
   const { id } = req.params;
-  console.log(
-    "🚀 ~ file: repository-db.js:99 ~ db.deleteById ~ req.params:",
-    req.params
-  );
 
   if (!id) {
     throw global.constants.response.recordNotFound;
