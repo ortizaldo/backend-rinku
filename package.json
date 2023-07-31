@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/index",
     "dev": "nodemon src/index",
-    "watch": "babel-watch src/index"
+    "watch": "babel-watch src/index",
+    "pm2": "pm2 start babel-watch --name 'backend-rinku' --watch 'src' --ignore-watch 'src/**/*.spec.js' -- src/index"
   },
   "keywords": [],
   "author": "",
