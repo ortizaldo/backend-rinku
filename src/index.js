@@ -12,10 +12,6 @@ require("dotenv").config();
 const env = process.env.NODE_ENV || "development";
 const port = env === "development" ? process.env.SERVER_PORT : 3000;
 
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./swagger.json");
-const customCss = fs.readFileSync(process.cwd() + "/src/swagger.css", "utf8");
-
 global.constants = constants;
 const app = express();
 const db = mongooseCon();
@@ -32,13 +28,6 @@ app.use(express.json());
 
 // routes
 app.use("/api", router);
-
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocument, { customCss })
-);
-
 global.db = db;
 
 app.listen(port, () => {
