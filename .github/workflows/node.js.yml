@@ -27,7 +27,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     #- run: npm i
-    - run: npm run pm2 --if-present
+    - run: pm2 start babel-watch --name 'backend-rinku' --watch 'src' --ignore-watch 'src/**/*.spec.js' -- src/index
     - run: |
         touch .env
         echo "${{ secrets.PROD_ENV_FILE }}" > .env
