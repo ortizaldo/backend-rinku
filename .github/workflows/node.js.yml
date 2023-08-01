@@ -27,7 +27,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     #- run: npm i
-    - run: pm2 delete backend-rinku
     - run: npm run pm2 --if-present
     - run: |
         touch .env
