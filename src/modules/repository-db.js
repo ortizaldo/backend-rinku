@@ -66,13 +66,18 @@ db.get = async (payload, model) => {
 
 db.edit = async (req, modelClass) => {
   const { body } = req;
+  const { id } = req.params;
 
+  if (!id) {
+    throw global.constants.response.recordNotFound;
+  }
+  const _id = new Types.ObjectId(id);
   let instance = await modelClass
     .findOneAndUpdate(
       {
-        _id: new Types.ObjectId(req.params.id),
+        _id,
       },
-      body,
+      { ...body, _id },
       {
         new: true,
       }
