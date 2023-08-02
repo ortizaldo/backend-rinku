@@ -6,6 +6,14 @@ import { deleteBody } from "modules";
 
 const db = {};
 
+/**
+ * Creates a new document in the database.
+ *
+ * @param {Object} req - The request object.
+ * @param {Class} modelClass - The class representing the model.
+ * @param {Object} [filterOptions={ populate: null }] - The filter options for populating fields.
+ * @return {Promise} A promise that resolves to the created document.
+ */
 db.create = async (req, modelClass, filterOptions = { populate: null }) => {
   const params = req.body;
 
@@ -25,6 +33,14 @@ db.create = async (req, modelClass, filterOptions = { populate: null }) => {
   data = await query;
   return data;
 };
+
+/**
+ * Retrieves all data from the database based on the given payload and model.
+ *
+ * @param {Object} payload - The payload object containing query details.
+ * @param {Object} model - The model object representing the database collection.
+ * @return {Promise} A promise that resolves to the retrieved data.
+ */
 db.getAll = async (payload, model) => {
   const { populate } = payload.query;
   let { filter } = payload.query;
@@ -58,12 +74,26 @@ db.getAll = async (payload, model) => {
   return data;
 };
 
+/**
+ * Retrieves data from the database using the given payload and model.
+ *
+ * @param {object} payload - The payload containing the id.
+ * @param {object} model - The model used to retrieve the data.
+ * @return {Promise<object>} The retrieved data.
+ */
 db.get = async (payload, model) => {
   const id = payload.id;
   const data = await model.findById(id);
   return data;
 };
 
+/**
+ * Edits a document in the database.
+ *
+ * @param {Object} req - the request object
+ * @param {Object} modelClass - the model class representing the document
+ * @return {Object} - the updated document
+ */
 db.edit = async (req, modelClass) => {
   const { body } = req;
   const { id } = req.params;
@@ -99,6 +129,13 @@ db.edit = async (req, modelClass) => {
   return instance;
 };
 
+/**
+ * Deletes a record from the database based on the provided ID.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} modelClass - The class of the model to delete from.
+ * @return {Object} The deleted instance from the database.
+ */
 db.deleteById = async (req, modelClass) => {
   const { id } = req.params;
 
